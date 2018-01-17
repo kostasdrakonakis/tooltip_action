@@ -15,7 +15,7 @@ Download the latest JAR or grab via Maven:
 <dependency>
   <groupId>com.github.kostasdrakonakis</groupId>
   <artifactId>tooltip-action</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 or Gradle:
@@ -130,6 +130,7 @@ v1.0.0
 - `hideOnClick(boolean clickToHide)` It hides when you click the Tooltip
 - `autoHide(boolean autoHide, long duration)` Auto hides after the duration set. The default duration is 4s.
 - `setForeverVisible(boolean foreverVisible)` It makes Tooltip show all the time. You have to use the `hide()` so the Tooltip can be hidden.
+
 v1.1.0
 - renamed `padding(@Px int left, @Px int top, @Px int right, @Px int bottom)` to `setPadding(@Px int left, @Px int top, @Px int right, @Px int bottom)`
 - renamed `setTextFont(Typeface typeface)` to `setTypeFace(Typeface typeface)`
