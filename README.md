@@ -20,7 +20,7 @@ Download the latest JAR or grab via Maven:
 ```
 or Gradle:
 ```groovy
-compile 'com.github.kostasdrakonakis:tooltip-action:1.0.0'
+implementation 'com.github.kostasdrakonakis:tooltip-action:1.1.0'
 ```
 
 Usage
