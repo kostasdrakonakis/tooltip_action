@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TooltipAction</string>
+    <string name="action_one">Action 1</string>
+    <string name="action_two">Action 2</string>
 </resources>

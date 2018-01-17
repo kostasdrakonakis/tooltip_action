@@ -5,8 +5,13 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.IntegerRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Px;
 import android.support.v4.widget.NestedScrollView;
+import android.text.method.MovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -46,16 +51,6 @@ public class ActionTooltip {
         return new ActionTooltip(context, view);
     }
 
-    private NestedScrollView findScrollableParent(View view) {
-        if (view.getParent() == null || !(view.getParent() instanceof View)) {
-            return null;
-        } else if (view.getParent() instanceof NestedScrollView) {
-            return ((NestedScrollView) view.getParent());
-        } else {
-            return findScrollableParent(((View) view.getParent()));
-        }
-    }
-
     public ActionTooltip setPositionTo(TooltipPosition position) {
         this.tooltipView.setPosition(position);
         return this;
@@ -63,6 +58,11 @@ public class ActionTooltip {
 
     public ActionTooltip setCustomView(View customView) {
         this.tooltipView.setCustomView(customView);
+        return this;
+    }
+
+    public ActionTooltip setCustomView(@LayoutRes int layoutId) {
+        this.tooltipView.setCustomView(layoutId);
         return this;
     }
 
@@ -126,7 +126,7 @@ public class ActionTooltip {
         return this;
     }
 
-    public ActionTooltip padding(@Px int left, @Px int top, @Px int right, @Px int bottom) {
+    public ActionTooltip setPadding(@Px int left, @Px int top, @Px int right, @Px int bottom) {
         this.tooltipView.setPadding(left, top, right, bottom);
         return this;
     }
@@ -136,18 +136,63 @@ public class ActionTooltip {
         return this;
     }
 
+    public ActionTooltip setArrowHeightId(@IntegerRes int arrowHeightId) {
+        this.tooltipView.setArrowHeightId(arrowHeightId);
+        return this;
+    }
+
+    public ActionTooltip setArrowHeight(int arrowHeight) {
+        this.tooltipView.setArrowHeight(arrowHeight);
+        return this;
+    }
+
+    public ActionTooltip setAllCaps(boolean allCaps) {
+        this.tooltipView.setAllCaps(allCaps);
+        return this;
+    }
+
+    public ActionTooltip setMaxLines(int maxLines) {
+        this.tooltipView.setMaxLines(maxLines);
+        return this;
+    }
+
+    public ActionTooltip setMaxWidth(int maxPixels) {
+        this.tooltipView.setMaxWidth(maxPixels);
+        return this;
+    }
+
+    public ActionTooltip setMinLines(int minLines) {
+        this.tooltipView.setMinLines(minLines);
+        return this;
+    }
+
+    public ActionTooltip setMovementMethod(MovementMethod movementMethod) {
+        this.tooltipView.setMovementMethod(movementMethod);
+        return this;
+    }
+
     public ActionTooltip setText(String text) {
         this.tooltipView.setText(text);
         return this;
     }
 
-    public ActionTooltip setTextColor(int textColor) {
-        this.tooltipView.setTextColor(textColor);
+    public ActionTooltip setTextColorId(@ColorRes int colorId) {
+        this.tooltipView.setTextColorId(colorId);
         return this;
     }
 
-    public ActionTooltip setTextFont(Typeface typeface) {
-        this.tooltipView.setTextTypeFace(typeface);
+    public ActionTooltip setTextColor(@ColorInt int color) {
+        this.tooltipView.setTextColor(color);
+        return this;
+    }
+
+    public ActionTooltip setTextColor(@NonNull String colorString) {
+        this.tooltipView.setTextColor(colorString);
+        return this;
+    }
+
+    public ActionTooltip setTypeFace(Typeface typeface) {
+        this.tooltipView.setTypeFace(typeface);
         return this;
     }
 
@@ -175,5 +220,15 @@ public class ActionTooltip {
     public ActionTooltip setForeverVisible(boolean foreverVisible) {
         this.tooltipView.setForeverVisible(foreverVisible);
         return this;
+    }
+
+    private NestedScrollView findScrollableParent(View view) {
+        if (view.getParent() == null || !(view.getParent() instanceof View)) {
+            return null;
+        } else if (view.getParent() instanceof NestedScrollView) {
+            return ((NestedScrollView) view.getParent());
+        } else {
+            return findScrollableParent(((View) view.getParent()));
+        }
     }
 }

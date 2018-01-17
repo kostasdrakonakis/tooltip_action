@@ -11,8 +11,14 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.annotation.IntegerRes;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.text.method.MovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -30,13 +36,14 @@ public class TooltipActionView extends FrameLayout {
     protected View childView;
     private int defaultColor = Color.parseColor("#FF4081");
     private Path bubblePath;
-    private Paint bubblePaint;
+    private Paint bubble;
     private TooltipPosition position = TooltipPosition.BOTTOM;
     private TooltipAlign align = TooltipAlign.CENTER;
     private boolean hideOnClick;
     private boolean autoHide = true;
     private boolean foreverVisible = false;
     private long duration = getInteger(R.integer.default_tooltip_fade_duration);
+    private int arrowHeight = getInteger(R.integer.default_arrow_height);
 
     private DisplayListener listener;
 
@@ -55,12 +62,11 @@ public class TooltipActionView extends FrameLayout {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         childView.setPadding(0, 0, 0, 0);
 
-        bubblePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        bubblePaint.setColor(defaultColor);
-        bubblePaint.setStyle(Paint.Style.FILL);
+        bubble = new Paint(Paint.ANTI_ALIAS_FLAG);
+        bubble.setColor(defaultColor);
+        bubble.setStyle(Paint.Style.FILL);
 
-
-        setLayerType(LAYER_TYPE_SOFTWARE, bubblePaint);
+        setLayerType(LAYER_TYPE_SOFTWARE, bubble);
     }
 
     public void setCustomView(View customView) {
@@ -71,9 +77,19 @@ public class TooltipActionView extends FrameLayout {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
+    public void setCustomView(@LayoutRes int layoutId) {
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        View customView = layoutInflater.inflate(layoutId, null);
+        this.removeView(childView);
+        this.childView = customView;
+        addView(childView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
     public void setBackgroundColor(@ColorInt int color) {
         this.defaultColor = color;
-        bubblePaint.setColor(color);
+        bubble.setColor(color);
         postInvalidate();
     }
 
@@ -89,22 +105,22 @@ public class TooltipActionView extends FrameLayout {
                 setPadding(paddingLeft,
                         paddingTop,
                         paddingRight,
-                        paddingBottom + getInteger(R.integer.default_arrow_height));
+                        paddingBottom + arrowHeight);
                 break;
             case BOTTOM:
                 setPadding(paddingLeft,
-                        paddingTop + getInteger(R.integer.default_arrow_height),
+                        paddingTop + arrowHeight,
                         paddingRight,
                         paddingBottom);
                 break;
             case START:
                 setPadding(paddingLeft,
                         paddingTop,
-                        paddingRight + getInteger(R.integer.default_arrow_height),
+                        paddingRight + arrowHeight,
                         paddingBottom);
                 break;
             case END:
-                setPadding(paddingLeft + getInteger(R.integer.default_arrow_height),
+                setPadding(paddingLeft + arrowHeight,
                         paddingTop,
                         paddingRight,
                         paddingBottom);
@@ -118,21 +134,80 @@ public class TooltipActionView extends FrameLayout {
         postInvalidate();
     }
 
-    public void setText(String text) {
+    public void setAllCaps(boolean allCaps) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setAllCaps(allCaps);
+        }
+        postInvalidate();
+    }
+
+    public void setArrowHeightId(@IntegerRes int arrowHeightId) {
+        this.arrowHeight = getInteger(arrowHeightId);
+        postInvalidate();
+    }
+
+    public void setArrowHeight(int arrowHeight) {
+        this.arrowHeight = arrowHeight;
+        postInvalidate();
+    }
+
+    public void setMaxLines(int maxLines) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setMaxLines(maxLines);
+        }
+        postInvalidate();
+    }
+
+    public void setMinLines(int minLines) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setMinLines(minLines);
+        }
+        postInvalidate();
+    }
+
+    public void setMovementMethod(MovementMethod movementMethod) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setMovementMethod(movementMethod);
+        }
+        postInvalidate();
+    }
+
+    public void setMaxWidth(int maxPixels) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setMaxWidth(maxPixels);
+        }
+        postInvalidate();
+    }
+
+    public void setText(@NonNull String text) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setText(Html.fromHtml(text));
         }
         postInvalidate();
     }
 
-    public void setTextColor(int textColor) {
+    public void setTextColorId(@ColorRes int color) {
         if (childView instanceof TextView) {
-            ((TextView) this.childView).setTextColor(textColor);
+            ((TextView) this.childView).setTextColor(ContextCompat.getColor(getContext(), color));
         }
         postInvalidate();
     }
 
-    public void setTextTypeFace(Typeface textTypeFace) {
+    public void setTextColor(@ColorInt int color) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setTextColor(color);
+        }
+        postInvalidate();
+    }
+
+    public void setTextColor(@NonNull String color) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setTextColor(Color.parseColor(color));
+        }
+        postInvalidate();
+    }
+
+    public void setTypeFace(Typeface textTypeFace) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setTypeface(textTypeFace);
         }
@@ -178,7 +253,7 @@ public class TooltipActionView extends FrameLayout {
         super.onDraw(canvas);
 
         if (bubblePath != null) {
-            canvas.drawPath(bubblePath, bubblePaint);
+            canvas.drawPath(bubblePath, bubble);
         }
     }
 
@@ -306,16 +381,16 @@ public class TooltipActionView extends FrameLayout {
         bottomRightDiameter = bottomRightDiameter < 0 ? 0 : bottomRightDiameter;
 
         final float spacingLeft = this.position == TooltipPosition.END
-                ? getInteger(R.integer.default_arrow_height)
+                ? arrowHeight
                 : 0;
         final float spacingTop = this.position == TooltipPosition.BOTTOM
-                ? getInteger(R.integer.default_arrow_height)
+                ? arrowHeight
                 : 0;
         final float spacingRight = this.position == TooltipPosition.START
-                ? getInteger(R.integer.default_arrow_height)
+                ? arrowHeight
                 : 0;
         final float spacingBottom = this.position == TooltipPosition.TOP
-                ? getInteger(R.integer.default_arrow_height)
+                ? arrowHeight
                 : 0;
 
         final float left = spacingLeft + myRect.left;
