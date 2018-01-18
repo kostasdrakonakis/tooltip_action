@@ -2,6 +2,7 @@ package com.github.kostasdrakonakis.android.views;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,13 +11,19 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.method.MovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,21 +82,29 @@ public class TooltipActionView extends FrameLayout {
         addView(childView,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+        postInvalidate();
+        ColorDrawable colorDrawable = (ColorDrawable) customView.getBackground();
+        if (colorDrawable != null) {
+            defaultColor = colorDrawable.getColor();
+        }
+        bubble.setColor(defaultColor);
     }
 
     public void setCustomView(@LayoutRes int layoutId) {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View customView = layoutInflater.inflate(layoutId, null);
-        this.removeView(childView);
-        this.childView = customView;
-        addView(childView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        setCustomView(customView);
     }
 
     public void setBackgroundColor(@ColorInt int color) {
         this.defaultColor = color;
         bubble.setColor(color);
+        postInvalidate();
+    }
+
+    public void setBackgroundColorId(@ColorRes int colorId) {
+        this.defaultColor = ContextCompat.getColor(getContext(), colorId);
+        bubble.setColor(defaultColor);
         postInvalidate();
     }
 
@@ -151,6 +166,81 @@ public class TooltipActionView extends FrameLayout {
         postInvalidate();
     }
 
+    public void setEllipsize(TextUtils.TruncateAt atWhere) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setEllipsize(atWhere);
+        }
+        postInvalidate();
+    }
+
+    public void setEms(int ems) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setEms(ems);
+        }
+        postInvalidate();
+    }
+
+    public void setFilters(InputFilter[] filters) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setFilters(filters);
+        }
+        postInvalidate();
+    }
+
+    public void setError(CharSequence error) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setError(error);
+        }
+        postInvalidate();
+    }
+
+    public void setHint(CharSequence hint) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setHint(hint);
+        }
+        postInvalidate();
+    }
+
+    public void setHint(@StringRes int hintId) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setHint(hintId);
+        }
+        postInvalidate();
+    }
+
+    public void setHintTextColor(@ColorInt int color) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setHintTextColor(color);
+        }
+        postInvalidate();
+    }
+
+    public void setHorizontallyScrolling(boolean whether) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setHorizontallyScrolling(whether);
+        }
+        postInvalidate();
+    }
+
+    public void setSingleLine(boolean singleLine) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setSingleLine(singleLine);
+        }
+        postInvalidate();
+    }
+
+    public void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled) {
+        this.childView.setVerticalScrollBarEnabled(verticalScrollBarEnabled);
+        postInvalidate();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void setElevation(float elevation) {
+        this.childView.setElevation(elevation);
+        postInvalidate();
+    }
+
     public void setMaxLines(int maxLines) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setMaxLines(maxLines);
@@ -182,6 +272,13 @@ public class TooltipActionView extends FrameLayout {
     public void setText(@NonNull String text) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setText(Html.fromHtml(text));
+        }
+        postInvalidate();
+    }
+
+    public void setText(@StringRes int stringId) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setText(getContext().getString(stringId));
         }
         postInvalidate();
     }

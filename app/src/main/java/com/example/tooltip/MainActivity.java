@@ -38,8 +38,9 @@ public class MainActivity extends AppCompatActivity {
                 tooltipActionView = ActionTooltip.anchorAt(MainActivity.this, view)
                         .setPadding(50, 50, 50, 50)
                         .setPositionTo(TooltipPosition.BOTTOM)
+                        .setBackgroundColorId(R.color.green)
                         .setForeverVisible(true)
-                        .setText("I am anchored to MenuItem")
+                        .setCustomView(R.layout.tooltip_view)
                         .show();
             }
         });
