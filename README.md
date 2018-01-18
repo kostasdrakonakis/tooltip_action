@@ -146,6 +146,22 @@ v1.1.0
 - `setTextColor(@ColorInt int color)`
 - `setTextColor(@NonNull String colorString)`
 
+v1.2.0
+- `setBackgroundColorId(@ColorRes int colorId)`
+- `setEllipsize(TextUtils.TruncateAt atWhere)`
+- `setEms(int ems)`
+- `setFilters(InputFilter[] filters)`
+- `setError(CharSequence error)`
+- `setHint(CharSequence hint)`
+- `setHint(@StringRes int hintId)`
+- `setHintTextColor(@ColorInt int color)`
+- `setHorizontallyScrolling(boolean whether)`
+- `setSingleLine(boolean singleLine)`
+- `setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled)`
+- `setElevation(float elevation)` Requires API 21 and above
+- `setText(@StringRes int stringId)`
+
+
 Useful methods
 -------------
 
@@ -179,6 +195,19 @@ You can use the following methods:
 - `setTextColorId(@ColorRes int colorId)`
 - `setTextColor(@ColorInt int color)`
 - `setTextColor(@NonNull String colorString)`
+- `setBackgroundColorId(@ColorRes int colorId)`
+- `setEllipsize(TextUtils.TruncateAt atWhere)`
+- `setEms(int ems)`
+- `setFilters(InputFilter[] filters)`
+- `setError(CharSequence error)`
+- `setHint(CharSequence hint)`
+- `setHint(@StringRes int hintId)`
+- `setHintTextColor(@ColorInt int color)`
+- `setHorizontallyScrolling(boolean whether)`
+- `setSingleLine(boolean singleLine)`
+- `setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled)`
+- `setElevation(float elevation)` Requires API 21 and above
+- `setText(@StringRes int stringId)`
 
 License
 -------

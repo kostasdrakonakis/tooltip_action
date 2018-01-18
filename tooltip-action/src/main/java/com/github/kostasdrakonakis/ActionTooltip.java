@@ -1,16 +1,22 @@
 package com.github.kostasdrakonakis;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Px;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.StringRes;
 import android.support.v4.widget.NestedScrollView;
+import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.method.MovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,6 +127,11 @@ public class ActionTooltip {
         return this;
     }
 
+    public ActionTooltip setBackgroundColorId(@ColorRes int colorId) {
+        this.tooltipView.setBackgroundColorId(colorId);
+        return this;
+    }
+
     public ActionTooltip setDisplayListener(DisplayListener listener) {
         this.tooltipView.setDisplayListener(listener);
         return this;
@@ -151,6 +162,63 @@ public class ActionTooltip {
         return this;
     }
 
+    public ActionTooltip setEllipsize(TextUtils.TruncateAt atWhere) {
+        this.tooltipView.setEllipsize(atWhere);
+        return this;
+    }
+
+    public ActionTooltip setEms(int ems) {
+        this.tooltipView.setEms(ems);
+        return this;
+    }
+
+    public ActionTooltip setFilters(InputFilter[] filters) {
+        this.tooltipView.setFilters(filters);
+        return this;
+    }
+
+    public ActionTooltip setError(CharSequence error) {
+        this.tooltipView.setError(error);
+        return this;
+    }
+
+    public ActionTooltip setHint(CharSequence hint) {
+        this.tooltipView.setHint(hint);
+        return this;
+    }
+
+    public ActionTooltip setHint(@StringRes int hintId) {
+        this.tooltipView.setHint(hintId);
+        return this;
+    }
+
+    public ActionTooltip setHintTextColor(@ColorInt int color) {
+        this.tooltipView.setHintTextColor(color);
+        return this;
+    }
+
+    public ActionTooltip setHorizontallyScrolling(boolean whether) {
+        this.tooltipView.setHorizontallyScrolling(whether);
+        return this;
+    }
+
+    public ActionTooltip setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled) {
+        this.tooltipView.setVerticalScrollBarEnabled(verticalScrollBarEnabled);
+        return this;
+    }
+
+    public ActionTooltip setSingleLine(boolean singleLine) {
+        this.tooltipView.setSingleLine(singleLine);
+        return this;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public ActionTooltip setElevation(float elevation) {
+        this.tooltipView.setElevation(elevation);
+        return this;
+    }
+
     public ActionTooltip setMaxLines(int maxLines) {
         this.tooltipView.setMaxLines(maxLines);
         return this;
@@ -173,6 +241,11 @@ public class ActionTooltip {
 
     public ActionTooltip setText(String text) {
         this.tooltipView.setText(text);
+        return this;
+    }
+
+    public ActionTooltip setText(@StringRes int stringId) {
+        this.tooltipView.setText(stringId);
         return this;
     }
 
