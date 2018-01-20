@@ -8,6 +8,8 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -57,8 +59,37 @@ public class ActionTooltip {
         return new ActionTooltip(context, view);
     }
 
+    public static ActionTooltip anchorAt(Context context, @IdRes int viewId) {
+        return new ActionTooltip(context, ((Activity) context).findViewById(viewId));
+    }
+
     public ActionTooltip setPositionTo(TooltipPosition position) {
         this.tooltipView.setPosition(position);
+        return this;
+    }
+
+    public ActionTooltip setDrawablePadding(int drawablePadding) {
+        this.tooltipView.setDrawablePadding(drawablePadding);
+        return this;
+    }
+
+    public ActionTooltip setDrawableLeft(@DrawableRes int drawableId) {
+        this.tooltipView.setDrawableLeft(drawableId);
+        return this;
+    }
+
+    public ActionTooltip setDrawableRight(@DrawableRes int drawableId) {
+        this.tooltipView.setDrawableRight(drawableId);
+        return this;
+    }
+
+    public ActionTooltip setDrawableTop(@DrawableRes int drawableId) {
+        this.tooltipView.setDrawableTop(drawableId);
+        return this;
+    }
+
+    public ActionTooltip setDrawableBottom(@DrawableRes int drawableId) {
+        this.tooltipView.setDrawableBottom(drawableId);
         return this;
     }
 
@@ -216,6 +247,13 @@ public class ActionTooltip {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public ActionTooltip setElevation(float elevation) {
         this.tooltipView.setElevation(elevation);
+        return this;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public ActionTooltip setLetterSpacing(float letterSpacing) {
+        this.tooltipView.setLetterSpacing(letterSpacing);
         return this;
     }
 

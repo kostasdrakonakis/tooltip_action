@@ -15,12 +15,12 @@ Download the latest JAR or grab via Maven:
 <dependency>
   <groupId>com.github.kostasdrakonakis</groupId>
   <artifactId>tooltip-action</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 or Gradle:
 ```groovy
-implementation 'com.github.kostasdrakonakis:tooltip-action:1.2.0'
+implementation 'com.github.kostasdrakonakis:tooltip-action:1.3.0'
 ```
 
 Usage
@@ -161,6 +161,14 @@ v1.2.0
 - `setElevation(float elevation)` Requires API 21 and above
 - `setText(@StringRes int stringId)`
 
+v1.3.0
+- `anchorAt(Context context, @IdRes int viewId)`
+- `setDrawablePadding(int drawablePadding)`
+- `setDrawableLeft(@DrawableRes int drawableId)`
+- `setDrawableRight(@DrawableRes int drawableId)`
+- `setDrawableTop(@DrawableRes int drawableId)`
+- `setDrawableBottom(@DrawableRes int drawableId)`
+- `setLetterSpacing(float letterSpacing)`
 
 Useful methods
 -------------
@@ -208,6 +216,12 @@ You can use the following methods:
 - `setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled)`
 - `setElevation(float elevation)` Requires API 21 and above
 - `setText(@StringRes int stringId)`
+- `setDrawablePadding(int drawablePadding)`
+- `setDrawableLeft(@DrawableRes int drawableId)`
+- `setDrawableRight(@DrawableRes int drawableId)`
+- `setDrawableTop(@DrawableRes int drawableId)`
+- `setDrawableBottom(@DrawableRes int drawableId)`
+- `setLetterSpacing(float letterSpacing)`
 
 License
 -------

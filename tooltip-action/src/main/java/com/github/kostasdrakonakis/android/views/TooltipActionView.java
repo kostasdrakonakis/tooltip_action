@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,9 +13,11 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -57,6 +60,7 @@ public class TooltipActionView extends FrameLayout {
     private FadeAnimation tooltipAnimation = new FadeAnimation();
 
     private Rect viewRect;
+    private int drawablePadding = 20;
 
     public TooltipActionView(Context context) {
         super(context);
@@ -166,10 +170,74 @@ public class TooltipActionView extends FrameLayout {
         postInvalidate();
     }
 
+    public void setDrawablePadding(int drawablePadding) {
+        this.drawablePadding = drawablePadding;
+        postInvalidate();
+    }
+
+    public void setDrawableLeft(@DrawableRes int drawableId) {
+        Resources resources = getContext().getResources();
+        Drawable drawable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                ? resources.getDrawable(drawableId, null)
+                : resources.getDrawable(drawableId);
+        drawable.setBounds(0, 0, 60, 60);
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setCompoundDrawables(drawable, null, null, null);
+            ((TextView) this.childView).setCompoundDrawablePadding(drawablePadding);
+        }
+        postInvalidate();
+    }
+
+    public void setDrawableRight(@DrawableRes int drawableId) {
+        Resources resources = getContext().getResources();
+        Drawable drawable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                ? resources.getDrawable(drawableId, null)
+                : resources.getDrawable(drawableId);
+        drawable.setBounds(0, 0, 60, 60);
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setCompoundDrawables(null, null, drawable, null);
+            ((TextView) this.childView).setCompoundDrawablePadding(drawablePadding);
+        }
+        postInvalidate();
+    }
+
+    public void setDrawableTop(@DrawableRes int drawableId) {
+        Resources resources = getContext().getResources();
+        Drawable drawable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                ? resources.getDrawable(drawableId, null)
+                : resources.getDrawable(drawableId);
+        drawable.setBounds(0, 0, 60, 60);
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setCompoundDrawables(null, drawable, null, null);
+            ((TextView) this.childView).setCompoundDrawablePadding(drawablePadding);
+        }
+        postInvalidate();
+    }
+
+    public void setDrawableBottom(@DrawableRes int drawableId) {
+        Resources resources = getContext().getResources();
+        Drawable drawable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                ? resources.getDrawable(drawableId, null)
+                : resources.getDrawable(drawableId);
+        drawable.setBounds(0, 0, 60, 60);
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setCompoundDrawables(null, null, null, drawable);
+            ((TextView) this.childView).setCompoundDrawablePadding(drawablePadding);
+        }
+        postInvalidate();
+    }
+
     public void setEllipsize(TextUtils.TruncateAt atWhere) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setEllipsize(atWhere);
         }
+        postInvalidate();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void setElevation(float elevation) {
+        this.childView.setElevation(elevation);
         postInvalidate();
     }
 
@@ -222,6 +290,15 @@ public class TooltipActionView extends FrameLayout {
         postInvalidate();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void setLetterSpacing(float letterSpacing) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setLetterSpacing(letterSpacing);
+        }
+        postInvalidate();
+    }
+
     public void setSingleLine(boolean singleLine) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setSingleLine(singleLine);
@@ -231,13 +308,6 @@ public class TooltipActionView extends FrameLayout {
 
     public void setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled) {
         this.childView.setVerticalScrollBarEnabled(verticalScrollBarEnabled);
-        postInvalidate();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void setElevation(float elevation) {
-        this.childView.setElevation(elevation);
         postInvalidate();
     }
 
