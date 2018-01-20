@@ -25,6 +25,12 @@ public class MainActivity extends AppCompatActivity {
                 tooltipActionView.hide();
             }
         });
+
+        ActionTooltip.anchorAt(this, R.id.fragment_text)
+                .setForeverVisible(true)
+                .setPadding(50, 50, 50, 50)
+                .setDrawableRight(R.drawable.ic_backup_white_24dp)
+                .setText("Hello from Fragment").show();
     }
 
     @Override
@@ -33,9 +39,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                View view = findViewById(R.id.action_item2);
-
-                tooltipActionView = ActionTooltip.anchorAt(MainActivity.this, view)
+                tooltipActionView = ActionTooltip.anchorAt(MainActivity.this, R.id.action_item2)
                         .setPadding(50, 50, 50, 50)
                         .setPositionTo(TooltipPosition.BOTTOM)
                         .setBackgroundColorId(R.color.green)
