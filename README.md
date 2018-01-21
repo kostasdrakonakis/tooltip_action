@@ -15,12 +15,12 @@ Download the latest JAR or grab via Maven:
 <dependency>
   <groupId>com.github.kostasdrakonakis</groupId>
   <artifactId>tooltip-action</artifactId>
-  <version>1.3.0</version>
+  <version>1.4.0</version>
 </dependency>
 ```
 or Gradle:
 ```groovy
-implementation 'com.github.kostasdrakonakis:tooltip-action:1.3.0'
+implementation 'com.github.kostasdrakonakis:tooltip-action:1.4.0'
 ```
 
 Usage
@@ -170,6 +170,14 @@ v1.3.0
 - `setDrawableBottom(@DrawableRes int drawableId)`
 - `setLetterSpacing(float letterSpacing)`
 
+v1.4.0
+Update of targetSDK to 27
+- `setCornerRadiusId(@IntegerRes int cornerRadiusId)`
+- `setCornerRadius(int cornerRadius)`
+- `setError(@StringRes int stringId)`
+- `setOnClickListener(View.OnClickListener onClickListener)`
+- `setOnLongClickListener(View.OnLongClickListener onLongClickListener)`
+
 Useful methods
 -------------
 
@@ -222,6 +230,11 @@ You can use the following methods:
 - `setDrawableTop(@DrawableRes int drawableId)`
 - `setDrawableBottom(@DrawableRes int drawableId)`
 - `setLetterSpacing(float letterSpacing)`
+- `setCornerRadiusId(@IntegerRes int cornerRadiusId)`
+- `setCornerRadius(int cornerRadius)`
+- `setError(@StringRes int stringId)`
+- `setOnClickListener(View.OnClickListener onClickListener)`
+- `setOnLongClickListener(View.OnLongClickListener onLongClickListener)`
 
 License
 -------

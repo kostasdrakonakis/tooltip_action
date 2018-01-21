@@ -188,6 +188,16 @@ public class ActionTooltip {
         return this;
     }
 
+    public ActionTooltip setCornerRadiusId(@IntegerRes int cornerRadiusId) {
+        this.tooltipView.setCornerRadiusId(cornerRadiusId);
+        return this;
+    }
+
+    public ActionTooltip setCornerRadius(int cornerRadius) {
+        this.tooltipView.setCornerRadius(cornerRadius);
+        return this;
+    }
+
     public ActionTooltip setAllCaps(boolean allCaps) {
         this.tooltipView.setAllCaps(allCaps);
         return this;
@@ -210,6 +220,11 @@ public class ActionTooltip {
 
     public ActionTooltip setError(CharSequence error) {
         this.tooltipView.setError(error);
+        return this;
+    }
+
+    public ActionTooltip setError(@StringRes int stringId) {
+        this.tooltipView.setError(stringId);
         return this;
     }
 
@@ -314,6 +329,16 @@ public class ActionTooltip {
 
     public ActionTooltip setTextGravity(int textGravity) {
         this.tooltipView.setTextGravity(textGravity);
+        return this;
+    }
+
+    public ActionTooltip setOnClickListener(View.OnClickListener onClickListener) {
+        this.tooltipView.setOnClickListener(onClickListener);
+        return this;
+    }
+
+    public ActionTooltip setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
+        this.tooltipView.setOnLongClickListener(onLongClickListener);
         return this;
     }
 

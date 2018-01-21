@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 26
-        versionCode 3
+        targetSdkVersion 27
+        versionCode 4
         versionName libraryVersion
     }
 
@@ -23,5 +23,5 @@ apply from: 'https://raw.githubusercontent.com/kostasdrakonakis/maven-upload/mas
 apply from: 'https://raw.githubusercontent.com/kostasdrakonakis/maven-upload/master/publications.gradle'
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
 }

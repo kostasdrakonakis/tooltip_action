@@ -44,7 +44,7 @@ import com.github.kostasdrakonakis.tooltip_action.R;
 public class TooltipActionView extends FrameLayout {
 
     protected View childView;
-    private int defaultColor = Color.parseColor("#FF4081");
+    private int defaultColor = getDefaultColor(R.color.default_tooltip_color);
     private Path bubblePath;
     private Paint bubble;
     private TooltipPosition position = TooltipPosition.BOTTOM;
@@ -54,13 +54,14 @@ public class TooltipActionView extends FrameLayout {
     private boolean foreverVisible = false;
     private long duration = getInteger(R.integer.default_tooltip_fade_duration);
     private int arrowHeight = getInteger(R.integer.default_arrow_height);
+    private int drawablePadding = getInteger(R.integer.default_drawable_padding);
+    private int cornerRadius = getInteger(R.integer.default_corner_size);
 
     private DisplayListener listener;
 
     private FadeAnimation tooltipAnimation = new FadeAnimation();
 
     private Rect viewRect;
-    private int drawablePadding = 20;
 
     public TooltipActionView(Context context) {
         super(context);
@@ -170,17 +171,29 @@ public class TooltipActionView extends FrameLayout {
         postInvalidate();
     }
 
+    public void setCornerRadiusId(@IntegerRes int cornerRadiusId) {
+        this.cornerRadius = getInteger(cornerRadiusId);
+        postInvalidate();
+    }
+
+    public void setCornerRadius(int cornerRadius) {
+        this.cornerRadius = cornerRadius;
+        postInvalidate();
+    }
+
     public void setDrawablePadding(int drawablePadding) {
         this.drawablePadding = drawablePadding;
         postInvalidate();
     }
 
     public void setDrawableLeft(@DrawableRes int drawableId) {
-        Resources resources = getContext().getResources();
-        Drawable drawable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                ? resources.getDrawable(drawableId, null)
-                : resources.getDrawable(drawableId);
-        drawable.setBounds(0, 0, 60, 60);
+        Drawable drawable = getDrawable(drawableId);
+        drawable.setBounds(
+                0,
+                0,
+                getInteger(R.integer.default_drawable_right_bound),
+                getInteger(R.integer.default_drawable_bottom_bound));
+
         if (childView instanceof TextView) {
             ((TextView) this.childView).setCompoundDrawables(drawable, null, null, null);
             ((TextView) this.childView).setCompoundDrawablePadding(drawablePadding);
@@ -189,11 +202,12 @@ public class TooltipActionView extends FrameLayout {
     }
 
     public void setDrawableRight(@DrawableRes int drawableId) {
-        Resources resources = getContext().getResources();
-        Drawable drawable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                ? resources.getDrawable(drawableId, null)
-                : resources.getDrawable(drawableId);
-        drawable.setBounds(0, 0, 60, 60);
+        Drawable drawable = getDrawable(drawableId);
+        drawable.setBounds(
+                0,
+                0,
+                getInteger(R.integer.default_drawable_right_bound),
+                getInteger(R.integer.default_drawable_bottom_bound));
         if (childView instanceof TextView) {
             ((TextView) this.childView).setCompoundDrawables(null, null, drawable, null);
             ((TextView) this.childView).setCompoundDrawablePadding(drawablePadding);
@@ -202,11 +216,12 @@ public class TooltipActionView extends FrameLayout {
     }
 
     public void setDrawableTop(@DrawableRes int drawableId) {
-        Resources resources = getContext().getResources();
-        Drawable drawable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                ? resources.getDrawable(drawableId, null)
-                : resources.getDrawable(drawableId);
-        drawable.setBounds(0, 0, 60, 60);
+        Drawable drawable = getDrawable(drawableId);
+        drawable.setBounds(
+                0,
+                0,
+                getInteger(R.integer.default_drawable_right_bound),
+                getInteger(R.integer.default_drawable_bottom_bound));
         if (childView instanceof TextView) {
             ((TextView) this.childView).setCompoundDrawables(null, drawable, null, null);
             ((TextView) this.childView).setCompoundDrawablePadding(drawablePadding);
@@ -215,11 +230,12 @@ public class TooltipActionView extends FrameLayout {
     }
 
     public void setDrawableBottom(@DrawableRes int drawableId) {
-        Resources resources = getContext().getResources();
-        Drawable drawable = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                ? resources.getDrawable(drawableId, null)
-                : resources.getDrawable(drawableId);
-        drawable.setBounds(0, 0, 60, 60);
+        Drawable drawable = getDrawable(drawableId);
+        drawable.setBounds(
+                0,
+                0,
+                getInteger(R.integer.default_drawable_right_bound),
+                getInteger(R.integer.default_drawable_bottom_bound));
         if (childView instanceof TextView) {
             ((TextView) this.childView).setCompoundDrawables(null, null, null, drawable);
             ((TextView) this.childView).setCompoundDrawablePadding(drawablePadding);
@@ -258,6 +274,13 @@ public class TooltipActionView extends FrameLayout {
     public void setError(CharSequence error) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setError(error);
+        }
+        postInvalidate();
+    }
+
+    public void setError(@StringRes int stringId) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setError(getContext().getString(stringId));
         }
         postInvalidate();
     }
@@ -400,8 +423,8 @@ public class TooltipActionView extends FrameLayout {
     }
 
     @Override
-    protected void onSizeChanged(int width, int height, int oldw, int oldh) {
-        super.onSizeChanged(width, height, oldw, oldh);
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+        super.onSizeChanged(width, height, oldWidth, oldHeight);
 
         bubblePath = drawBubble(
                 new RectF(
@@ -409,10 +432,7 @@ public class TooltipActionView extends FrameLayout {
                         getInteger(R.integer.default_shadow_padding),
                         width - getInteger(R.integer.default_shadow_padding) * 2,
                         height - getInteger(R.integer.default_shadow_padding) * 2),
-                getInteger(R.integer.default_corner_size),
-                getInteger(R.integer.default_corner_size),
-                getInteger(R.integer.default_corner_size),
-                getInteger(R.integer.default_corner_size));
+                cornerRadius, cornerRadius, cornerRadius, cornerRadius);
     }
 
     @Override
@@ -426,6 +446,16 @@ public class TooltipActionView extends FrameLayout {
 
     public void setDisplayListener(DisplayListener listener) {
         this.listener = listener;
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        if (childView instanceof TextView) this.childView.setOnClickListener(onClickListener);
+        postInvalidate();
+    }
+
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
+        if (childView instanceof TextView) childView.setOnLongClickListener(onLongClickListener);
+        postInvalidate();
     }
 
     public void setTooltipAnimation(FadeAnimation tooltipAnimation) {
@@ -675,10 +705,7 @@ public class TooltipActionView extends FrameLayout {
                         getInteger(R.integer.default_shadow_padding),
                         getWidth() - getInteger(R.integer.default_shadow_padding) * 2f,
                         getHeight() - getInteger(R.integer.default_shadow_padding) * 2f),
-                getInteger(R.integer.default_corner_size),
-                getInteger(R.integer.default_corner_size),
-                getInteger(R.integer.default_corner_size),
-                getInteger(R.integer.default_corner_size));
+                cornerRadius, cornerRadius, cornerRadius, cornerRadius);
 
         startEnterAnimation();
 
@@ -717,5 +744,16 @@ public class TooltipActionView extends FrameLayout {
 
     private int getInteger(@IntegerRes int id) {
         return getContext().getResources().getInteger(id);
+    }
+
+    private Drawable getDrawable(@DrawableRes int drawableId) {
+        Resources resources = getContext().getResources();
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                ? resources.getDrawable(drawableId, null)
+                : resources.getDrawable(drawableId);
+    }
+
+    private int getDefaultColor(@ColorRes int defaultColorId) {
+        return ContextCompat.getColor(getContext(), defaultColorId);
     }
 }
