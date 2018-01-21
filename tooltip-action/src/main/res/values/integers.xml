@@ -5,4 +5,7 @@
     <integer name="default_corner_size">30</integer>
     <integer name="default_shadow_padding">4</integer>
     <integer name="default_tooltip_fade_duration">4000</integer>
+    <integer name="default_drawable_padding">20</integer>
+    <integer name="default_drawable_bottom_bound">60</integer>
+    <integer name="default_drawable_right_bound">60</integer>
 </resources>
