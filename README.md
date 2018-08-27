@@ -1,10 +1,10 @@
-Action Tooltip [![Maven Central](https://img.shields.io/badge/Maven%20Central-spinner--preference-brightgreen.svg)](http://search.maven.org/#search%7Cga%7C1%7Ckostasdrakonakis) [ ![Download](https://api.bintray.com/packages/kdrakonakis/maven/tooltip-action/images/download.svg) ](https://bintray.com/kdrakonakis/maven/tooltip-action/_latestVersion)
-
+Action Tooltip [ ![Download](https://api.bintray.com/packages/kdrakonakis/maven/tooltip-action/images/download.svg) ](https://bintray.com/kdrakonakis/maven/tooltip-action/_latestVersion)
 
 A custom Tooltip that can be anchored to a view. By default it supports TextView only but you can setCustomView with your custom layout.xml file.
 
 ![alt tag](https://github.com/kostasdrakonakis/tooltip_action/blob/master/button_tooltip.PNG)
 ![alt tag](https://github.com/kostasdrakonakis/tooltip_action/blob/master/menu_item.PNG)
+![alt tag](https://github.com/kostasdrakonakis/tooltip_action/blob/master/email_link.PNG)
 
 
 Download
@@ -15,12 +15,12 @@ Download the latest JAR or grab via Maven:
 <dependency>
   <groupId>com.github.kostasdrakonakis</groupId>
   <artifactId>tooltip-action</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1</version>
 </dependency>
 ```
 or Gradle:
 ```groovy
-implementation 'com.github.kostasdrakonakis:tooltip-action:1.4.0'
+implementation 'com.github.kostasdrakonakis:tooltip-action:1.4.1'
 ```
 
 Usage
@@ -77,7 +77,7 @@ ActionTooltip.anchorAt(this, findViewById(R.id.my_anchor_view_id))
 
     final TooltipActionView tooltipActionView =
             ActionTooltip.anchorAt(this, findViewById(R.id.hello_world))
-                    .padding(100, 100, 100, 100)
+                    .padding(100)
                     .setPositionTo(TooltipPosition.TOP)
                     .setForeverVisible(true)
                     .setCustomView(customView)
@@ -89,6 +89,15 @@ ActionTooltip.anchorAt(this, findViewById(R.id.my_anchor_view_id))
             tooltipActionView.hide();
         }
     });
+    //Add AutoLink Mask
+    ActionTooltip.anchorAt(this, R.id.fragment_text)
+                    .setForeverVisible(true)
+                    .setPadding(50)
+                    .setDrawableRight(R.drawable.ic_backup_white_24dp)
+                    .setAutoLinkMask(Linkify.EMAIL_ADDRESSES)
+                    .setTextColorId(R.color.colorPrimaryDark)
+                    .setLinkTextColor(Color.WHITE)
+                    .setText("Hello from Fragment email@example.com").show();
 ```
 
 Setting custom view:
@@ -113,128 +122,153 @@ ActionTooltip.anchorAt(this, findViewById(R.id.hello_world))
 Changelog
 -------------
 v1.0.0
-- `setPositionTo(TooltipPosition position)` Sets the Tooltip position in the anchor view. Values are: `TOP, BOTTOM, START, END`
-- `setCustomView(View customView)` Sets a custom view. See Usage above
-- `setTextAlignment(TooltipAlign align)` Aligns the Text in the Tooltip. Values are: `START, CENTER, END`
-- `show()` Shows the Tooltip
-- `setDuration(long duration)`
-- `setBackgroundColor(@ColorInt int color)`
-- `setDisplayListener(DisplayListener listener)` Sets a Listener which implements 2 methods: `onViewDisplayed(View view)` and `onViewHidden(View view)`
+- `autoHide(boolean autoHide, long duration)`
+- `hideOnClick(boolean clickToHide)`
 - `padding(@Px int left, @Px int top, @Px int right, @Px int bottom)`
 - `setAnimation(FadeAnimation tooltipAnimation)`
-- `setText(String text)` Sets text if you do not setCustomView.
-- `setTextColor(int textColor)` Sets text color if you do not setCustomView.
-- `setTextFont(Typeface typeface)` Sets text font if you do not setCustomView.
-- `setTextSize(int unit, float textSize)` Sets text size if you do not setCustomView.
-- `setTextGravity(int textGravity)` Sets text gravity if you do not setCustomView.
-- `hideOnClick(boolean clickToHide)` It hides when you click the Tooltip
-- `autoHide(boolean autoHide, long duration)` Auto hides after the duration set. The default duration is 4s.
-- `setForeverVisible(boolean foreverVisible)` It makes Tooltip show all the time. You have to use the `hide()` so the Tooltip can be hidden.
+- `setBackgroundColor(@ColorInt int color)`
+- `setCustomView(View customView)`
+- `setDisplayListener(DisplayListener listener)`
+- `setDuration(long duration)`
+- `setForeverVisible(boolean foreverVisible)`
+- `setPositionTo(TooltipPosition position)`
+- `setText(String text)`
+- `setTextAlignment(TooltipAlign align)`
+- `setTextColor(int textColor)`
+- `setTextFont(Typeface typeface)`
+- `setTextGravity(int textGravity)`
+- `setTextSize(int unit, float textSize)`
+- `show()`
 
 v1.1.0
-- renamed `padding(@Px int left, @Px int top, @Px int right, @Px int bottom)` to `setPadding(@Px int left, @Px int top, @Px int right, @Px int bottom)`
-- renamed `setTextFont(Typeface typeface)` to `setTypeFace(Typeface typeface)`
-- `setCustomView(@LayoutRes int layoutId)` Sets a custom view. See Usage above
-- `setArrowHeightId(@IntegerRes int arrowHeightId)`
-- `setArrowHeight(int arrowHeight)`
 - `setAllCaps(boolean allCaps)`
+- `setArrowHeight(int arrowHeight)`
+- `setArrowHeightId(@IntegerRes int arrowHeightId)`
+- `setCustomView(@LayoutRes int layoutId)` Sets a custom view. See Usage above
 - `setMaxLines(int maxLines)`
 - `setMaxWidth(int maxPixels)`
 - `setMinLines(int minLines)`
 - `setMovementMethod(MovementMethod movementMethod)`
-- `setTextColorId(@ColorRes int colorId)`
+- `setPadding(@Px int left, @Px int top, @Px int right, @Px int bottom)`
 - `setTextColor(@ColorInt int color)`
 - `setTextColor(@NonNull String colorString)`
+- `setTextColorId(@ColorRes int colorId)`
+- `setTypeFace(Typeface typeface)`
 
 v1.2.0
 - `setBackgroundColorId(@ColorRes int colorId)`
+- `setElevation(float elevation)`
 - `setEllipsize(TextUtils.TruncateAt atWhere)`
 - `setEms(int ems)`
-- `setFilters(InputFilter[] filters)`
 - `setError(CharSequence error)`
-- `setHint(CharSequence hint)`
+- `setFilters(InputFilter[] filters)`
 - `setHint(@StringRes int hintId)`
+- `setHint(CharSequence hint)`
 - `setHintTextColor(@ColorInt int color)`
 - `setHorizontallyScrolling(boolean whether)`
 - `setSingleLine(boolean singleLine)`
-- `setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled)`
-- `setElevation(float elevation)` Requires API 21 and above
 - `setText(@StringRes int stringId)`
+- `setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled)`
 
 v1.3.0
 - `anchorAt(Context context, @IdRes int viewId)`
-- `setDrawablePadding(int drawablePadding)`
+- `setDrawableBottom(@DrawableRes int drawableId)`
 - `setDrawableLeft(@DrawableRes int drawableId)`
+- `setDrawablePadding(int drawablePadding)`
 - `setDrawableRight(@DrawableRes int drawableId)`
 - `setDrawableTop(@DrawableRes int drawableId)`
-- `setDrawableBottom(@DrawableRes int drawableId)`
 - `setLetterSpacing(float letterSpacing)`
 
 v1.4.0
-Update of targetSDK to 27
-- `setCornerRadiusId(@IntegerRes int cornerRadiusId)`
 - `setCornerRadius(int cornerRadius)`
+- `setCornerRadiusId(@IntegerRes int cornerRadiusId)`
 - `setError(@StringRes int stringId)`
 - `setOnClickListener(View.OnClickListener onClickListener)`
 - `setOnLongClickListener(View.OnLongClickListener onLongClickListener)`
+
+v1.4.1
+- `setAutoLinkMask(@LinkifyCompat.LinkifyMask int mask)`
+- `setDuration(int duration)`
+- `setDurationId(@IntegerRes int durationId)`
+- `setHintTextColor(@NonNull String color)`
+- `setLinkTextColor(@ColorInt int color)`
+- `setLinkTextColor(@NonNull String color)`
+- `setLinkTextColorId(@ColorRes int colorId)`
+- `setPadding(@Px int padding)`
+- `setPaddingBottom(@Px int bottom)`
+- `setPaddingLeft(@Px int left)`
+- `setPaddingRight(@Px int right)`
+- `setPaddingTop(@Px int top)`
 
 Useful methods
 -------------
 
 You can use the following methods:
 
-- `setPositionTo(TooltipPosition position)` Sets the Tooltip position in the anchor view. Values are: `TOP, BOTTOM, START, END`
-- `setCustomView(View customView)` Sets a custom view. See Usage above
-- `setCustomView(@LayoutRes int layoutId)` Sets a custom view. See Usage above
-- `setTextAlignment(TooltipAlign align)` Aligns the Text in the Tooltip. Values are: `START, CENTER, END`
-- `show()` Shows the Tooltip
-- `setDuration(long duration)`
-- `setBackgroundColor(@ColorInt int color)`
-- `setDisplayListener(DisplayListener listener)` Sets a Listener which implements 2 methods: `onViewDisplayed(View view)` and `onViewHidden(View view)`
-- `setPadding(@Px int left, @Px int top, @Px int right, @Px int bottom)`
-- `setAnimation(FadeAnimation tooltipAnimation)`
-- `setText(String text)` Sets text if you do not setCustomView.
-- `setTextColor(int textColor)` Sets text color if you do not setCustomView.
-- `setTypeFace(Typeface typeface)` Sets text font if you do not setCustomView.
-- `setTextSize(int unit, float textSize)` Sets text size if you do not setCustomView.
-- `setTextGravity(int textGravity)` Sets text gravity if you do not setCustomView.
-- `hideOnClick(boolean clickToHide)` It hides when you click the Tooltip
-- `autoHide(boolean autoHide, long duration)` Auto hides after the duration set. The default duration is 4s.
-- `setForeverVisible(boolean foreverVisible)` It makes Tooltip show all the time. You have to use the `hide()` so the Tooltip can be hidden.
-- `setArrowHeightId(@IntegerRes int arrowHeightId)`
-- `setArrowHeight(int arrowHeight)`
+- `autoHide(boolean autoHide, long duration)`
+- `hideOnClick(boolean clickToHide)`
 - `setAllCaps(boolean allCaps)`
+- `setAnimation(FadeAnimation tooltipAnimation)`
+- `setArrowHeight(int arrowHeight)`
+- `setArrowHeightId(@IntegerRes int arrowHeightId)`
+- `setAutoLinkMask(@LinkifyCompat.LinkifyMask int mask)`
+- `setBackgroundColor(@ColorInt int color)`
+- `setBackgroundColorId(@ColorRes int colorId)`
+- `setCornerRadius(int cornerRadius)`
+- `setCornerRadiusId(@IntegerRes int cornerRadiusId)`
+- `setCustomView(@LayoutRes int layoutId)`
+- `setCustomView(View customView)`
+- `setDisplayListener(DisplayListener listener)`
+- `setDrawableBottom(@DrawableRes int drawableId)`
+- `setDrawableLeft(@DrawableRes int drawableId)`
+- `setDrawablePadding(int drawablePadding)`
+- `setDrawableRight(@DrawableRes int drawableId)`
+- `setDrawableTop(@DrawableRes int drawableId)`
+- `setDuration(int duration)`
+- `setDuration(long duration)`
+- `setDurationId(@IntegerRes int durationId)`
+- `setElevation(float elevation)`
+- `setEllipsize(TextUtils.TruncateAt atWhere)`
+- `setEms(int ems)`
+- `setError(@StringRes int stringId)`
+- `setError(CharSequence error)`
+- `setFilters(InputFilter[] filters)`
+- `setForeverVisible(boolean foreverVisible)`
+- `setHint(@StringRes int hintId)`
+- `setHint(CharSequence hint)`
+- `setHintTextColor(@ColorInt int color)`
+- `setHintTextColor(@NonNull String color)`
+- `setHorizontallyScrolling(boolean whether)`
+- `setLetterSpacing(float letterSpacing)`
+- `setLinkTextColor(@ColorInt int color)`
+- `setLinkTextColor(@NonNull String color)`
+- `setLinkTextColorId(@ColorRes int colorId)`
 - `setMaxLines(int maxLines)`
 - `setMaxWidth(int maxPixels)`
 - `setMinLines(int minLines)`
 - `setMovementMethod(MovementMethod movementMethod)`
-- `setTextColorId(@ColorRes int colorId)`
-- `setTextColor(@ColorInt int color)`
-- `setTextColor(@NonNull String colorString)`
-- `setBackgroundColorId(@ColorRes int colorId)`
-- `setEllipsize(TextUtils.TruncateAt atWhere)`
-- `setEms(int ems)`
-- `setFilters(InputFilter[] filters)`
-- `setError(CharSequence error)`
-- `setHint(CharSequence hint)`
-- `setHint(@StringRes int hintId)`
-- `setHintTextColor(@ColorInt int color)`
-- `setHorizontallyScrolling(boolean whether)`
-- `setSingleLine(boolean singleLine)`
-- `setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled)`
-- `setElevation(float elevation)` Requires API 21 and above
-- `setText(@StringRes int stringId)`
-- `setDrawablePadding(int drawablePadding)`
-- `setDrawableLeft(@DrawableRes int drawableId)`
-- `setDrawableRight(@DrawableRes int drawableId)`
-- `setDrawableTop(@DrawableRes int drawableId)`
-- `setDrawableBottom(@DrawableRes int drawableId)`
-- `setLetterSpacing(float letterSpacing)`
-- `setCornerRadiusId(@IntegerRes int cornerRadiusId)`
-- `setCornerRadius(int cornerRadius)`
-- `setError(@StringRes int stringId)`
 - `setOnClickListener(View.OnClickListener onClickListener)`
 - `setOnLongClickListener(View.OnLongClickListener onLongClickListener)`
+- `setPadding(@Px int left, @Px int top, @Px int right, @Px int bottom)`
+- `setPadding(@Px int padding)`
+- `setPaddingBottom(@Px int bottom)`
+- `setPaddingLeft(@Px int left)`
+- `setPaddingRight(@Px int right)`
+- `setPaddingTop(@Px int top)`
+- `setPositionTo(TooltipPosition position)`
+- `setSingleLine(boolean singleLine)`
+- `setText(@StringRes int stringId)`
+- `setText(String text)`
+- `setTextAlignment(TooltipAlign align)`
+- `setTextColor(@ColorInt int color)`
+- `setTextColor(@NonNull String colorString)`
+- `setTextColor(int textColor)`
+- `setTextColorId(@ColorRes int colorId)`
+- `setTextGravity(int textGravity)`
+- `setTextSize(int unit, float textSize)`
+- `setTypeFace(Typeface typeface)`
+- `setVerticalScrollBarEnabled(boolean verticalScrollBarEnabled)`
+- `show()`
 
 License
 -------

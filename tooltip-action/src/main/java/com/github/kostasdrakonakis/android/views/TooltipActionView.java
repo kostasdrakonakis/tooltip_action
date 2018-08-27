@@ -24,10 +24,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.text.util.LinkifyCompat;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.method.MovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +81,28 @@ public class TooltipActionView extends FrameLayout {
         bubble.setStyle(Paint.Style.FILL);
 
         setLayerType(LAYER_TYPE_SOFTWARE, bubble);
+    }
+
+    @Override
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+        super.onSizeChanged(width, height, oldWidth, oldHeight);
+
+        bubblePath = drawBubble(
+                new RectF(
+                        getInteger(R.integer.default_shadow_padding),
+                        getInteger(R.integer.default_shadow_padding),
+                        width - getInteger(R.integer.default_shadow_padding) * 2,
+                        height - getInteger(R.integer.default_shadow_padding) * 2),
+                cornerRadius, cornerRadius, cornerRadius, cornerRadius);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
+        if (bubblePath != null) {
+            canvas.drawPath(bubblePath, bubble);
+        }
     }
 
     public void setCustomView(View customView) {
@@ -157,6 +181,13 @@ public class TooltipActionView extends FrameLayout {
     public void setAllCaps(boolean allCaps) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setAllCaps(allCaps);
+        }
+        postInvalidate();
+    }
+
+    public void setAutoLinkMask(@LinkifyCompat.LinkifyMask int mask) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setAutoLinkMask(mask);
         }
         postInvalidate();
     }
@@ -306,6 +337,13 @@ public class TooltipActionView extends FrameLayout {
         postInvalidate();
     }
 
+    public void setHintTextColor(@NonNull String color) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setHintTextColor(Color.parseColor(color));
+        }
+        postInvalidate();
+    }
+
     public void setHorizontallyScrolling(boolean whether) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setHorizontallyScrolling(whether);
@@ -397,6 +435,27 @@ public class TooltipActionView extends FrameLayout {
         postInvalidate();
     }
 
+    public void setLinkTextColor(@NonNull String color) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setLinkTextColor(Color.parseColor(color));
+        }
+        postInvalidate();
+    }
+
+    public void setLinkTextColor(@ColorInt int color) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setLinkTextColor(color);
+        }
+        postInvalidate();
+    }
+
+    public void setLinkTextColorId(@ColorRes int colorId) {
+        if (childView instanceof TextView) {
+            ((TextView) this.childView).setLinkTextColor(ContextCompat.getColor(getContext(), colorId));
+        }
+        postInvalidate();
+    }
+
     public void setTypeFace(Typeface textTypeFace) {
         if (childView instanceof TextView) {
             ((TextView) this.childView).setTypeface(textTypeFace);
@@ -422,28 +481,6 @@ public class TooltipActionView extends FrameLayout {
         this.hideOnClick = hideOnClick;
     }
 
-    @Override
-    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
-        super.onSizeChanged(width, height, oldWidth, oldHeight);
-
-        bubblePath = drawBubble(
-                new RectF(
-                        getInteger(R.integer.default_shadow_padding),
-                        getInteger(R.integer.default_shadow_padding),
-                        width - getInteger(R.integer.default_shadow_padding) * 2,
-                        height - getInteger(R.integer.default_shadow_padding) * 2),
-                cornerRadius, cornerRadius, cornerRadius, cornerRadius);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
-        if (bubblePath != null) {
-            canvas.drawPath(bubblePath, bubble);
-        }
-    }
-
     public void setDisplayListener(DisplayListener listener) {
         this.listener = listener;
     }
@@ -460,49 +497,6 @@ public class TooltipActionView extends FrameLayout {
 
     public void setTooltipAnimation(FadeAnimation tooltipAnimation) {
         this.tooltipAnimation = tooltipAnimation;
-    }
-
-    protected void startEnterAnimation() {
-        tooltipAnimation.onAnimationEntered(this, new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                if (listener != null) listener.onViewDisplayed(TooltipActionView.this);
-            }
-        });
-    }
-
-    protected void startExitAnimation(final Animator.AnimatorListener animatorListener) {
-        tooltipAnimation.onAnimationExited(this, new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                animatorListener.onAnimationEnd(animation);
-                if (listener != null) listener.onViewHidden(TooltipActionView.this);
-            }
-        });
-    }
-
-    protected void handleAutoRemove() {
-        if (hideOnClick) {
-            setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (hideOnClick) {
-                        hide();
-                    }
-                }
-            });
-        }
-
-        if (autoHide && !foreverVisible) {
-            postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    hide();
-                }
-            }, duration);
-        }
     }
 
     public void hide() {
@@ -549,6 +543,125 @@ public class TooltipActionView extends FrameLayout {
 
         setTranslationX(horizontal);
         setTranslationY(vertical);
+    }
+
+    public boolean adjustSize(Rect rect, int screenWidth) {
+
+        final Rect r = new Rect();
+        getGlobalVisibleRect(r);
+
+        boolean changed = false;
+        final ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        if (position == TooltipPosition.START && getWidth() > rect.left) {
+            layoutParams.width = rect.left - getInteger(R.integer.default_screen_margin);
+            changed = true;
+        } else if (position == TooltipPosition.END && rect.right + getWidth() > screenWidth) {
+            layoutParams.width =
+                    screenWidth - rect.right - getInteger(R.integer.default_screen_margin);
+            changed = true;
+        } else if (position == TooltipPosition.TOP || position == TooltipPosition.BOTTOM) {
+            int adjustedLeft = rect.left;
+            int adjustedRight = rect.right;
+
+            if ((rect.centerX() + getWidth() / 2f) > screenWidth) {
+                float diff = (rect.centerX() + getWidth() / 2f) - screenWidth;
+
+                adjustedLeft -= diff;
+                adjustedRight -= diff;
+
+                setAlign(TooltipAlign.CENTER);
+                changed = true;
+            } else if ((rect.centerX() - getWidth() / 2f) < 0) {
+                float diff = -(rect.centerX() - getWidth() / 2f);
+
+                adjustedLeft += diff;
+                adjustedRight += diff;
+
+                setAlign(TooltipAlign.CENTER);
+                changed = true;
+            }
+
+            if (adjustedLeft < 0) {
+                adjustedLeft = 0;
+            }
+
+            if (adjustedRight > screenWidth) {
+                adjustedRight = screenWidth;
+            }
+
+            rect.left = adjustedLeft;
+            rect.right = adjustedRight;
+        }
+
+        setLayoutParams(layoutParams);
+        postInvalidate();
+        return changed;
+    }
+
+    public void setup(final Rect viewRect, int screenWidth) {
+        this.viewRect = new Rect(viewRect);
+        final Rect myRect = new Rect(viewRect);
+
+        final boolean changed = adjustSize(myRect, screenWidth);
+        if (!changed) {
+            onSetup(myRect);
+        } else {
+            getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    onSetup(myRect);
+                    getViewTreeObserver().removeOnPreDrawListener(this);
+                    return false;
+                }
+            });
+        }
+    }
+
+    public void close() {
+        hide();
+    }
+
+    protected void startEnterAnimation() {
+        tooltipAnimation.onAnimationEntered(this, new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (listener != null) listener.onViewDisplayed(TooltipActionView.this);
+            }
+        });
+    }
+
+    protected void startExitAnimation(final Animator.AnimatorListener animatorListener) {
+        tooltipAnimation.onAnimationExited(this, new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                animatorListener.onAnimationEnd(animation);
+                if (listener != null) listener.onViewHidden(TooltipActionView.this);
+            }
+        });
+    }
+
+    protected void handleAutoRemove() {
+        if (hideOnClick) {
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (hideOnClick) {
+                        hide();
+                    }
+                }
+            });
+        }
+
+        if (autoHide && !foreverVisible) {
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hide();
+                }
+            }, duration);
+        }
     }
 
     private int getAlignOffset(int myLength, int hisLength) {
@@ -644,59 +757,6 @@ public class TooltipActionView extends FrameLayout {
         return path;
     }
 
-    public boolean adjustSize(Rect rect, int screenWidth) {
-
-        final Rect r = new Rect();
-        getGlobalVisibleRect(r);
-
-        boolean changed = false;
-        final ViewGroup.LayoutParams layoutParams = getLayoutParams();
-        if (position == TooltipPosition.START && getWidth() > rect.left) {
-            layoutParams.width = rect.left - getInteger(R.integer.default_screen_margin);
-            changed = true;
-        } else if (position == TooltipPosition.END && rect.right + getWidth() > screenWidth) {
-            layoutParams.width =
-                    screenWidth - rect.right - getInteger(R.integer.default_screen_margin);
-            changed = true;
-        } else if (position == TooltipPosition.TOP || position == TooltipPosition.BOTTOM) {
-            int adjustedLeft = rect.left;
-            int adjustedRight = rect.right;
-
-            if ((rect.centerX() + getWidth() / 2f) > screenWidth) {
-                float diff = (rect.centerX() + getWidth() / 2f) - screenWidth;
-
-                adjustedLeft -= diff;
-                adjustedRight -= diff;
-
-                setAlign(TooltipAlign.CENTER);
-                changed = true;
-            } else if ((rect.centerX() - getWidth() / 2f) < 0) {
-                float diff = -(rect.centerX() - getWidth() / 2f);
-
-                adjustedLeft += diff;
-                adjustedRight += diff;
-
-                setAlign(TooltipAlign.CENTER);
-                changed = true;
-            }
-
-            if (adjustedLeft < 0) {
-                adjustedLeft = 0;
-            }
-
-            if (adjustedRight > screenWidth) {
-                adjustedRight = screenWidth;
-            }
-
-            rect.left = adjustedLeft;
-            rect.right = adjustedRight;
-        }
-
-        setLayoutParams(layoutParams);
-        postInvalidate();
-        return changed;
-    }
-
     private void onSetup(Rect rect) {
         setupPosition(rect);
 
@@ -710,29 +770,6 @@ public class TooltipActionView extends FrameLayout {
         startEnterAnimation();
 
         handleAutoRemove();
-    }
-
-    public void setup(final Rect viewRect, int screenWidth) {
-        this.viewRect = new Rect(viewRect);
-        final Rect myRect = new Rect(viewRect);
-
-        final boolean changed = adjustSize(myRect, screenWidth);
-        if (!changed) {
-            onSetup(myRect);
-        } else {
-            getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    onSetup(myRect);
-                    getViewTreeObserver().removeOnPreDrawListener(this);
-                    return false;
-                }
-            });
-        }
-    }
-
-    public void close() {
-        hide();
     }
 
     private void removeNow() {
