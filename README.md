@@ -4,7 +4,7 @@ A custom Tooltip that can be anchored to a view. By default it supports TextView
 
 ![alt tag](https://github.com/kostasdrakonakis/tooltip_action/blob/master/button_tooltip.PNG)
 ![alt tag](https://github.com/kostasdrakonakis/tooltip_action/blob/master/menu_item.PNG)
-![alt tag](https://github.com/kostasdrakonakis/tooltip_action/blob/master/email_link.PNG)
+![alt tag](https://github.com/kostasdrakonakis/tooltip_action/blob/master/email_link.png)
 
 
 Download
