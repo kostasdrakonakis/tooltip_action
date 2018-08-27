@@ -1,8 +1,10 @@
 package com.example.tooltip;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.View;
 
@@ -30,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
                 .setForeverVisible(true)
                 .setPadding(50, 50, 50, 50)
                 .setDrawableRight(R.drawable.ic_backup_white_24dp)
-                .setText("Hello from Fragment").show();
+                .setAutoLinkMask(Linkify.EMAIL_ADDRESSES)
+                .setTextColorId(R.color.colorPrimaryDark)
+                .setLinkTextColor(Color.WHITE)
+                .setText("Hello from Fragment email@example.com").show();
     }
 
     @Override
@@ -40,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 tooltipActionView = ActionTooltip.anchorAt(MainActivity.this, R.id.action_item2)
-                        .setPadding(50, 50, 50, 50)
+                        .setPadding(50)
                         .setPositionTo(TooltipPosition.BOTTOM)
                         .setBackgroundColorId(R.color.green)
                         .setForeverVisible(true)
