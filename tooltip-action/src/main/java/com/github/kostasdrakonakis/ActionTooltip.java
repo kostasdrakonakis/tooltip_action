@@ -3,6 +3,7 @@ package com.github.kostasdrakonakis;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -16,6 +17,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Px;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.text.util.LinkifyCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -23,6 +26,7 @@ import android.text.method.MovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.TextView;
 
 import com.github.kostasdrakonakis.android.animations.FadeAnimation;
 import com.github.kostasdrakonakis.android.views.TooltipActionView;
@@ -153,6 +157,16 @@ public class ActionTooltip {
         return this;
     }
 
+    public ActionTooltip setDuration(int duration) {
+        this.tooltipView.setDuration(duration);
+        return this;
+    }
+
+    public ActionTooltip setDurationId(@IntegerRes int durationId) {
+        this.tooltipView.setDuration(durationId);
+        return this;
+    }
+
     public ActionTooltip setBackgroundColor(@ColorInt int color) {
         this.tooltipView.setBackgroundColor(color);
         return this;
@@ -173,8 +187,38 @@ public class ActionTooltip {
         return this;
     }
 
+    public ActionTooltip setPadding(@Px int padding) {
+        this.tooltipView.setPadding(padding, padding, padding, padding);
+        return this;
+    }
+
+    public ActionTooltip setPaddingLeft(@Px int left) {
+        this.tooltipView.setPadding(left, 0, 0, 0);
+        return this;
+    }
+
+    public ActionTooltip setPaddingTop(@Px int top) {
+        this.tooltipView.setPadding(0, top, 0, 0);
+        return this;
+    }
+
+    public ActionTooltip setPaddingRight(@Px int right) {
+        this.tooltipView.setPadding(0, 0, right, 0);
+        return this;
+    }
+
+    public ActionTooltip setPaddingBottom(@Px int bottom) {
+        this.tooltipView.setPadding(0, 0, 0, bottom);
+        return this;
+    }
+
     public ActionTooltip setAnimation(FadeAnimation tooltipAnimation) {
         this.tooltipView.setTooltipAnimation(tooltipAnimation);
+        return this;
+    }
+
+    public ActionTooltip setAutoLinkMask(@LinkifyCompat.LinkifyMask int mask) {
+        this.tooltipView.setAutoLinkMask(mask);
         return this;
     }
 
@@ -239,6 +283,11 @@ public class ActionTooltip {
     }
 
     public ActionTooltip setHintTextColor(@ColorInt int color) {
+        this.tooltipView.setHintTextColor(color);
+        return this;
+    }
+
+    public ActionTooltip setHintTextColor(@NonNull String color) {
         this.tooltipView.setHintTextColor(color);
         return this;
     }
@@ -314,6 +363,21 @@ public class ActionTooltip {
 
     public ActionTooltip setTextColor(@NonNull String colorString) {
         this.tooltipView.setTextColor(colorString);
+        return this;
+    }
+
+    public ActionTooltip setLinkTextColor(@NonNull String color) {
+        this.tooltipView.setLinkTextColor(color);
+        return this;
+    }
+
+    public ActionTooltip setLinkTextColor(@ColorInt int color) {
+        this.tooltipView.setLinkTextColor(color);
+        return this;
+    }
+
+    public ActionTooltip setLinkTextColorId(@ColorRes int colorId) {
+        this.tooltipView.setLinkTextColorId(colorId);
         return this;
     }
 
