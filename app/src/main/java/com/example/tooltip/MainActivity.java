@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.util.Linkify;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.github.kostasdrakonakis.ActionTooltip;
@@ -15,6 +16,8 @@ import com.github.kostasdrakonakis.enums.TooltipPosition;
 public class MainActivity extends AppCompatActivity {
 
     private TooltipActionView tooltipActionView;
+    private ActionTooltip tooltip;
+    private TooltipActionView view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +31,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ActionTooltip.anchorAt(this, R.id.fragment_text)
+        tooltip = ActionTooltip.anchorAt(this, R.id.fragment_text)
                 .setForeverVisible(true)
                 .setPadding(50, 50, 50, 50)
                 .setDrawableRight(R.drawable.ic_backup_white_24dp)
                 .setAutoLinkMask(Linkify.EMAIL_ADDRESSES)
                 .setTextColorId(R.color.colorPrimaryDark)
                 .setLinkTextColor(Color.WHITE)
-                .setText("Hello from Fragment email@example.com").show();
+                .setText("Hello from Fragment email@example.com");
     }
 
     @Override
@@ -54,5 +57,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_item1:
+                view = tooltip.show();
+                return true;
+            case R.id.action_item2:
+                view.hide();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
