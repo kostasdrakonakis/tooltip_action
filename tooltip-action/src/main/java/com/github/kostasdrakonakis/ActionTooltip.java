@@ -3,7 +3,6 @@ package com.github.kostasdrakonakis;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -17,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Px;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.text.util.LinkifyCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.text.InputFilter;
@@ -26,7 +24,6 @@ import android.text.method.MovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.TextView;
 
 import com.github.kostasdrakonakis.android.animations.FadeAnimation;
 import com.github.kostasdrakonakis.android.views.TooltipActionView;
@@ -114,7 +111,7 @@ public class ActionTooltip {
 
     public TooltipActionView show() {
         final Context context = tooltipView.getContext();
-        if (context != null && context instanceof Activity) {
+        if (context instanceof Activity) {
             final ViewGroup decorView = (ViewGroup) ((Activity) context).getWindow().getDecorView();
 
             view.postDelayed(new Runnable() {
