@@ -29,7 +29,6 @@ import android.text.Html;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.method.MovementMethod;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -773,10 +772,15 @@ public class TooltipActionView extends FrameLayout {
     }
 
     private void removeNow() {
-        if (getParent() != null) {
-            final ViewGroup parent = ((ViewGroup) getParent());
-            parent.removeView(TooltipActionView.this);
-        }
+        post(new Runnable() {
+            @Override
+            public void run() {
+                if (getParent() != null) {
+                    final ViewGroup parent = ((ViewGroup) getParent());
+                    parent.removeView(TooltipActionView.this);
+                }
+            }
+        });
     }
 
     private int getInteger(@IntegerRes int id) {

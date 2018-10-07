@@ -15,12 +15,12 @@ Download the latest JAR or grab via Maven:
 <dependency>
   <groupId>com.github.kostasdrakonakis</groupId>
   <artifactId>tooltip-action</artifactId>
-  <version>1.4.1</version>
+  <version>1.4.2</version>
 </dependency>
 ```
 or Gradle:
 ```groovy
-implementation 'com.github.kostasdrakonakis:tooltip-action:1.4.1'
+implementation 'com.github.kostasdrakonakis:tooltip-action:1.4.2'
 ```
 
 Usage
