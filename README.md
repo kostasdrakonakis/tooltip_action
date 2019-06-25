@@ -1,4 +1,4 @@
-Action Tooltip [ ![Download](https://api.bintray.com/packages/kdrakonakis/maven/tooltip-action/images/download.svg) ](https://bintray.com/kdrakonakis/maven/tooltip-action/_latestVersion)
+Action Tooltip [ ![Download](https://api.bintray.com/packages/kdrakonakis/maven/tooltip-action/images/download.svg) ](https://bintray.com/kdrakonakis/maven/tooltip-action/_latestVersion) [![Build Status](https://travis-ci.org/kostasdrakonakis/tooltip_action.svg?branch=master)](https://travis-ci.org/kostasdrakonakis/tooltip_action)
 
 <p align="center"><a href='https://ko-fi.com/Z8Z4XWSM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
@@ -17,12 +17,12 @@ Download the latest JAR or grab via Maven:
 <dependency>
   <groupId>com.github.kostasdrakonakis</groupId>
   <artifactId>tooltip-action</artifactId>
-  <version>1.4.2</version>
+  <version>1.4.3</version>
 </dependency>
 ```
 or Gradle:
 ```groovy
-implementation 'com.github.kostasdrakonakis:tooltip-action:1.4.2'
+implementation 'com.github.kostasdrakonakis:tooltip-action:1.4.3'
 ```
 
 Usage
@@ -201,6 +201,13 @@ v1.4.1
 - `setPaddingLeft(@Px int left)`
 - `setPaddingRight(@Px int right)`
 - `setPaddingTop(@Px int top)`
+
+v1.4.2
+- fixed issue to remove view in runnable and not in UI thread
+
+v1.4.3
+- Update API version to support API 28
+
 
 Useful methods
 -------------
