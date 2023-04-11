@@ -6,14 +6,12 @@ import android.os.Handler
 import android.text.util.Linkify
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kostasdrakonakis.ActionTooltip
 import com.github.kostasdrakonakis.ActionTooltip.Companion.anchorAt
 import com.github.kostasdrakonakis.android.views.TooltipActionView
 import com.github.kostasdrakonakis.enums.TooltipPosition
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var tooltipActionView: TooltipActionView
@@ -22,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        hello_world.setOnClickListener { tooltipActionView.hide() }
+        findViewById<TextView>(R.id.hello_world).setOnClickListener { tooltipActionView.hide() }
         tooltip = anchorAt(this, R.id.fragment_text)
             .setForeverVisible(true)
             .setPadding(50, 50, 50, 50)

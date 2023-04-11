@@ -322,7 +322,7 @@ class TooltipActionView(context: Context) : FrameLayout(context) {
 
     fun setSingleLine(singleLine: Boolean) {
         if (childView is TextView) {
-            (childView as TextView).setSingleLine(singleLine)
+            (childView as TextView).isSingleLine = singleLine
         }
         postInvalidate()
     }
@@ -445,12 +445,12 @@ class TooltipActionView(context: Context) : FrameLayout(context) {
         this.listener = listener
     }
 
-    override fun setOnClickListener(onClickListener: OnClickListener) {
+    override fun setOnClickListener(onClickListener: OnClickListener?) {
         if (childView is TextView) childView.setOnClickListener(onClickListener)
         postInvalidate()
     }
 
-    override fun setOnLongClickListener(onLongClickListener: OnLongClickListener) {
+    override fun setOnLongClickListener(onLongClickListener: OnLongClickListener?) {
         if (childView is TextView) childView.setOnLongClickListener(onLongClickListener)
         postInvalidate()
     }

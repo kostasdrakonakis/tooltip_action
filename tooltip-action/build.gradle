@@ -1,15 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 6
-        versionName libraryVersion
+        targetSdkVersion 33
     }
 
     buildTypes {
@@ -18,12 +15,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_16
+        targetCompatibility JavaVersion.VERSION_16
+    }
+    namespace 'com.github.kostasdrakonakis.tooltip_action'
 }
 
-apply from: 'https://raw.githubusercontent.com/kostasdrakonakis/maven-upload/master/bintray.gradle'
-apply from: 'https://raw.githubusercontent.com/kostasdrakonakis/maven-upload/master/publications.gradle'
-
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.10.0'
 }
