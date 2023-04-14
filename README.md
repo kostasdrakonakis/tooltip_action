@@ -1,5 +1,4 @@
-Action Tooltip [ ![Download](https://api.bintray.com/packages/kdrakonakis/maven/tooltip-action/images/download.svg) ](https://bintray.com/kdrakonakis/maven/tooltip-action/_latestVersion) [![Build Status](https://travis-ci.org/kostasdrakonakis/tooltip_action.svg?branch=master)](https://travis-ci.org/kostasdrakonakis/tooltip_action)
-
+Action Tooltip
 <p align="center"><a href='https://ko-fi.com/Z8Z4XWSM' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a></p>
 
 A custom Tooltip that can be anchored to a view. By default it supports TextView only but you can setCustomView with your custom layout.xml file.
